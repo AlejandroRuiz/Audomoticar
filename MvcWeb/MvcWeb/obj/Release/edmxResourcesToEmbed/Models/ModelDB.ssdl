@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AutoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblEvento">
+    <Key>
+      <PropertyRef Name="IdEvento" />
+    </Key>
+    <Property Name="IdEvento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Evento" Type="nvarchar" MaxLength="50" />
+    <Property Name="Fecha" Type="nvarchar" MaxLength="50" />
+    <Property Name="Hora" Type="nvarchar" MaxLength="50" />
+    <Property Name="Descripcion" Type="text" />
+    <Property Name="fkIdUsuario" Type="int" />
+  </EntityType>
+  <EntityType Name="tblToken">
+    <Key>
+      <PropertyRef Name="IdToken" />
+    </Key>
+    <Property Name="IdToken" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Token" Type="nvarchar" MaxLength="50" />
+    <Property Name="Fecha" Type="nvarchar" MaxLength="50" />
+    <Property Name="Hora" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ip" Type="nvarchar" MaxLength="50" />
+    <Property Name="fkIdUsuario" Type="int" />
+    <Property Name="Estado" Type="int" />
+    <Property Name="Descripcion" Type="text" />
+  </EntityType>
+  <EntityType Name="tblUsuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Usuario" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Idfacebook" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="AutoModelStoreContainer">
+    <EntitySet Name="tblEvento" EntityType="Self.tblEvento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblToken" EntityType="Self.tblToken" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUsuario" EntityType="Self.tblUsuario" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

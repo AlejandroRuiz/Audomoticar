@@ -1,0 +1,7 @@
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Audomoticar\bin\Debug\Audomoticar.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Audomoticar\Components\AndHUD-1.3.1\lib\android\AndHUD.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Components\json.net-4.5.11\lib\android\Newtonsoft.Json.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Audomoticar\bin\Debug\Prueba.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Audomoticar\Components\sqlite-net-1.0.1\lib\android\SQLite.dll
+C:\Users\Carolina\Documents\visual studio 2013\Projects\MvcWeb\Audomoticar\Components\xamarin.auth-1.2.2\lib\android\Xamarin.Auth.Android.dll

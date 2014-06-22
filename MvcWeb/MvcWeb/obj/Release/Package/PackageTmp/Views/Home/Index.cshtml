@@ -1,0 +1,283 @@
+﻿<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <div style="display: none;" id="Contenido">
+                <p><h1><label>Crear Usuario</label></h1></p>
+                <p>
+                    <h3><label>Usuario</label></h3>
+                    <input id="UsernameN" type="text" />
+                </p>
+                <p>
+                    <h3><label>Clave</label></h3>
+                    <input id="PasswordN" type="password" />
+                </p>
+                <input type="button" id="Nbtn" value="Añadir" />
+                <p><h1><label>Usuarios Actuales</label></h1></p>
+            </div>
+            <div style="display: none;" id="master">
+                <div id="center" class="column">
+                    <h1>Usuario</h1>
+                    <h2>
+                        <p>
+                            <label id="lblNombre">
+
+                            </label></p>
+                        <p>
+                            <h3><label>Clave Actual</label></h3>
+                            <input id="PasswordA" type="password" />
+                        </p>
+                        <p>
+                            <h3><label>Clave Nueva</label></h3>
+                            <input id="PasswordNew" type="password" />
+                        </p>
+                        <p>
+                            <h3><label>Rep. Clave</label></h3>
+                            <input id="PasswordNewR" type="password" />
+                        </p>
+                        <input id="IdUserC" type="hidden">
+                            <input type="button" id="btnCP" value="Modificar" />
+</h2>
+                </div>
+                <div id="left" class="column">
+                    <h2>Registros</h2>
+                </div>
+
+                <div id="right" class="column">
+                    <h1>Sesiones</h1>
+                </div>
+            </div>
+            <div id="loginf">
+                <p>
+                    <h2><label>Usuario</label></h2>
+                    <input id="Username" type="text" />
+                </p>
+                <p>
+                    <h2><label>Clave</label></h2>
+                    <input id="Password" type="password" />
+                </p>
+                <input type="button" id="Loginbtn" value="Ingresar" />
+            </div>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+    </section>
+</div>
+@section scripts{
+<script type="text/javascript" src="/Content/js/jquery.loader.js"></script>
+<script type="text/javascript" src="/Content/js/jquery.cookie.js"></script>
+<script src="/Scripts/Sha1.js"></script>
+    <script type="text/javascript">
+        $('#btnCP').click(function () {
+            if ($("#PasswordA").val() != "" && $("#PasswordNew").val() != "" && $("#PasswordNewR").val() != "" && $("#IdUserC").val() != "") {
+                if($("#PasswordNew").val() == $("#PasswordNewR").val())
+                {
+                    showLoader();
+                    var jsonObj = { "IdUsuario": $("#IdUserC").val(), "Usuario": $("#lblNombre").text(), "Password": SHA1($("#PasswordA").val()) + "*" + SHA1($("#PasswordNew").val()), "Idfacebook": "Nil" };
+                    $.post("api/Usuario/UpdateUsuario",
+                          jsonObj,
+                          function (value) {
+                              closeLoader();
+                              if (value) {
+                                  $("#IdUserC").val('');
+                                  $("#lblNombre").text('');
+                                  $("#PasswordA").val('');
+                                  $("#PasswordNew").val('');
+                                  $("#PasswordNewR").val('');
+                                  alert("Correcto");
+                              }
+                              else {
+                                  alert("Error al actualizar");
+                              }
+                          },
+                          "json"
+                    );
+                }
+                else
+                {
+                    alert("Claves Desiguales verificalas");
+                }
+            }
+            else
+            {
+                alert("Campos Vacios");
+            }
+
+        });
+        function CargarDatos()
+        {
+                showLoader();
+                $.getJSON('api/Usuario/GettblUsuarios', function (contactsJsonPayload) {
+                    $(contactsJsonPayload).each(function (i, item) {
+                        $('#Contenido').append('<li><h4><a onclick="LoadUser(\'' + item.IdUsuario + '\');" href="#">' + item.Usuario + '</a></h4></li>');
+                    });
+                    $("#Contenido").show("slow");
+                    closeLoader();
+                });
+        }
+        function CargarRegistros(id)
+        {
+            showLoader();
+            $.getJSON('api/Evento/GettblEvento/'+id, function (contactsJsonPayload) {
+                $('#left').append('<table style="width:600px">');
+                $('#left').append('<tr><td>Evento</td><td>Descripcion</td><td>Fecha/Hora</td></tr>');
+                $(contactsJsonPayload).each(function (i, item) {
+                    $('#left').append('<tr><td>' + item.Evento + '</td><td>' + item.Descripcion + '</td><td>' + item.Fecha + ' '+ item.Hora +'</td></tr>');
+                });
+                $('#left').append('<table>');
+                $("#master").show("slow");
+                closeLoader();
+                CargarSesiones(id);
+            });
+        }
+        function CargarSesiones(id)
+        {
+            showLoader();
+            $.getJSON('api/Token/GettblToken/' + id, function (contactsJsonPayload) {
+                $('#right').append('<table style="width:600px">');
+                $('#right').append('<tr><td>IP</td><td>Descripcion</td><td>Fecha/Hora</td><td></td></tr>');
+                $(contactsJsonPayload).each(function (i, item) {
+                    if($.cookie("tok")== item.Token)
+                        $('#right').append('<tr><td>' + item.Ip + '</td><td>' + item.Descripcion + '</td><td>' + item.Fecha + ' ' + item.Hora + '</td><td>ACTUAL</td></tr>');
+                    else
+                        $('#right').append('<tr><td>' + item.Ip + '</td><td>' + item.Descripcion + '</td><td>' + item.Fecha + ' ' + item.Hora + '</td><td><a onclick="deleteS(' + item.IdToken + ')";><img height="15px" width="15px" src="Content/images/delete.png"</a></td></tr>');
+                });
+                $('#left').append('<table>');
+                $("#master").show("slow");
+                closeLoader();
+            });
+        }
+        function deleteS(id)
+        {
+            showLoader();
+            var jsonObj = { "IdToken": id, "Token": "n", "Fecha": "n", "Hora": "n", "Ip": "n", "fkIdUsuario": "0", "Estado": "0", "Descripcion": "n" };
+            $.post("api/Token/downToken",
+                  jsonObj,
+                  function (value) {
+                      closeLoader();
+                      if (value) {
+                          LoadUser($("#IdUserC").val());
+                      }
+                      else {
+                          alert("Error al eliminar sesion");
+                      }
+                  },
+                  "json"
+            );
+        }
+            function LoadUser(id)
+            {
+                $('#master').html($('#master').data('old-state'));
+                showLoader();
+                $.getJSON('api/Usuario/GettblUsuario/'+id, function (contactsJsonPayload) {
+                    $("#lblNombre").text(contactsJsonPayload.Usuario);
+                    $("#IdUserC").val(contactsJsonPayload.IdUsuario);
+                    $("#Contenido").hide("slow");
+                    $("#master").show("slow");
+                    closeLoader();
+                    CargarRegistros(id);
+                });
+            }
+            function showLoader()
+            {
+                $.loader({
+                    className: "blue-with-image-2",
+                    content: ''
+                });
+            }
+            function closeLoader()
+            {
+                $.loader('close');
+            }
+            function init()
+            {
+                $("#Username").val('');
+                $("#Password").val('');
+                $.removeCookie("tok");
+                $("#loginf").show("slow");
+                $("#men").hide("slow");
+                $("#master").hide("slow");
+                $("#Contenido").hide("slow");
+                $('#master').html($('#master').data('old-state'));
+            }
+            function LogOK()
+            {
+                $('#Contenido').html($('#Contenido').data('old-state'));
+                $("#loginf").hide("slow");
+                $("#men").show("slow");
+            }
+            $(document).ready(function () {
+                $('#Contenido').data('old-state', $('#Contenido').html());
+                $('#master').data('old-state', $('#master').html());
+            })
+            $(function () {
+                var cookieValue = $.cookie("tok");
+                if(cookieValue!="" && cookieValue!=null)
+                {
+                    showLoader();
+                    var jsonObj = { "IdToken": "0", "Token": cookieValue, "Fecha": "n", "Hora": "n", "Ip": "n", "fkIdUsuario": "0", "Estado": "0", "Descripcion": "n" };
+                    $.post("api/Token/IsValid",
+                          jsonObj,
+                          function (value) {
+                              closeLoader();
+                              if (value) {
+                                  LogOK();
+                                  CargarDatos();
+                              }
+                              else
+                              {
+                                  init();
+                              }
+                          },
+                          "json"
+                    );
+                }
+            });
+            $('#closes').click(function () {
+                init();
+            });
+            $('#Nbtn').click(function () {
+                if ($("#UsernameN").val() != "" && $("#PasswordN").val() != "") {
+                    showLoader();
+                    var jsonObj = { "IdUsuario": "0", "Usuario": $("#UsernameN").val(), "Password": SHA1($("#PasswordN").val()), "Idfacebook": "Nil" };
+                    $.post("api/Usuario/PosttblUsuario",
+                      jsonObj,
+                      function (value) {
+                          closeLoader();
+                          if (value.IdUsuario != 0) {
+                              $("#UsernameN").val('');
+                              $("#PasswordN").val('');
+                              $('#Contenido').append('<li><h4><a onclick="LoadUser(\'' + value.IdUsuario + '\');" href="#">' + value.Usuario + '</a></h4></li>');
+                          }
+                          else
+                              alert('Error al crear usuario');
+                      },
+                      "json"
+                    );
+                }
+                else
+                {
+                    alert("Usuario y/o Clave Vacios");
+                }
+            });
+            $('#Loginbtn').click(function () {
+                showLoader();
+                var jsonObj = { "IdUsuario": "0", "Usuario": $("#Username").val(), "Password": SHA1($("#Password").val()), "Idfacebook": "Nil" };
+                $.post("api/Usuario/Login",
+                      jsonObj,
+                      function (value) {
+                          closeLoader();
+                          if (value.Respuesta) {
+                              $.cookie("tok", value.Token, { expires: 10 });
+                              LogOK();
+                              CargarDatos();
+                          }
+                          else {
+                              init();
+                              alert("Usuario o clave incorrectos");
+                          }
+                      },
+                      "json"
+                );
+            });
+    </script>
+}
