@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>PclContrib-API</id>
+    <version>1.0.0.3-beta</version>
+    <title>PclContrib-API</title>
+    <authors>Zeeshan Bhatti</authors>
+    <owners>Zeeshan Bhatti</owners>
+    <licenseUrl>https://raw.github.com/MichaelAz/unirest-net/master/LICENSE</licenseUrl>
+    <projectUrl>http://pclcontrib.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Portable Class Libraries Contrib (PclContrib) provides portable adapters and APIs that help bridge the gap between different .NET platforms when using the new Portable Class Library feature. This makes it easier to convert existing platform-specific projects over to use portable APIs. This is an independently created nuget and has no affiliation with Portable Class Libraries Contrib project or David Kean.</description>
+    <summary>Portable Class Libraries Contrib (PclContrib) provides portable adapters and APIs that help bridge the gap between different .NET platforms when using the new Portable Class Library feature. This make</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

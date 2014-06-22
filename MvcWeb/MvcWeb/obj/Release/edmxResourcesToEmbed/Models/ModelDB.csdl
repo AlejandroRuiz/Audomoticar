@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AutoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblEvento">
+    <Key>
+      <PropertyRef Name="IdEvento" />
+    </Key>
+    <Property Name="IdEvento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Evento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Hora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="fkIdUsuario" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblToken">
+    <Key>
+      <PropertyRef Name="IdToken" />
+    </Key>
+    <Property Name="IdToken" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Hora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fkIdUsuario" Type="Int32" />
+    <Property Name="Estado" Type="Int32" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblUsuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Idfacebook" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="AutoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblEventoes" EntityType="Self.tblEvento" />
+    <EntitySet Name="tblTokens" EntityType="Self.tblToken" />
+    <EntitySet Name="tblUsuarios" EntityType="Self.tblUsuario" />
+  </EntityContainer>
+</Schema>
